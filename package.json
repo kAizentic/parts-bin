@@ -1,0 +1,49 @@
+{
+  "name": "parts-bin",
+  "version": "0.1.0",
+  "description": "A token-driven, brand-agnostic, reduced-motion-safe library of React/Next.js scroll-animation section components (GSAP + a few CSS-only atoms).",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "nextjs",
+    "gsap",
+    "scrolltrigger",
+    "animation",
+    "scroll-animation",
+    "components",
+    "design-system",
+    "reduced-motion"
+  ],
+  "sideEffects": [
+    "**/*.tsx"
+  ],
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "gsap": ">=3.12",
+    "@gsap/react": ">=2"
+  },
+  "peerDependenciesMeta": {
+    "three": {
+      "optional": true
+    }
+  },
+  "peerDependencies_note": "three is only needed if you import RibbonPeelRevealWithSphere; it is dynamically imported so DOM/CSS-only consumers never pull it in.",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@gsap/react": "^2.1.1",
+    "@types/react": "^18.3.0",
+    "@types/three": "^0.169.0",
+    "gsap": "^3.12.5",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "three": "^0.169.0",
+    "typescript": "^5.5.0"
+  }
+}
