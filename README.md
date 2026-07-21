@@ -13,6 +13,30 @@ motion, and a few dependency-free CSS atoms.
 > small, self-contained `.tsx` files with no build step required; you can vendor a
 > single file into `app/components/` or consume the barrel export.
 
+## Requirements
+
+- **React 18+** and a bundler that understands `"use client"` (Next.js App Router, etc.).
+- **GSAP 3.12+** and `@gsap/react` (peer deps). `gsap/SplitText` and `gsap/ScrollTrigger`
+  are used by some components — both ship free with GSAP 3.13+.
+- **Tailwind CSS.** Several components use Tailwind utility classes internally for layout
+  (grid placement, spacing, responsive breakpoints). Your app should have Tailwind
+  configured with these files in its `content` glob, or those layout classes won't apply.
+- **`three`** *(optional)* — only for `RibbonPeelRevealWithSphere`, which imports it
+  dynamically, so DOM/CSS-only consumers never pull it in.
+
+## Live demo
+
+This repo is also a runnable Next.js showcase.
+
+```bash
+npm install
+npm run dev     # http://localhost:3000
+```
+
+The demo lives in `app/` and composes ~15 of the components with placeholder media;
+`src/` is the library itself (the only thing published to npm — see `files` in
+`package.json`).
+
 ---
 
 ## Design principles

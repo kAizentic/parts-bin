@@ -69,14 +69,28 @@ export default function EditorialIndexHero({
         const run = () => {
           split = new SplitText(titleRef.current, { type: "lines", mask: "lines" });
           gsap.set(titleRef.current, { opacity: 1 });
+          // Paused tween played by a ScrollTrigger on entrance. `toggleActions:"play"`
+          // alone is NOT enough when the component is the HERO at the top of the page:
+          // the trigger is created already past its start, and ScrollTrigger does not
+          // fire onEnter for a trigger that is in-range at creation — so the lines would
+          // stay parked in their from-state. So we also play immediately if the section
+          // is already within the start line at mount.
           const rev = gsap.from(split.lines, {
             yPercent: 110,
             duration: 1,
             ease: "power3.out",
             stagger: 0.12,
-            scrollTrigger: { trigger: section.current, start: "top 80%", toggleActions: "play none none reverse" },
+            paused: true,
           });
-          return () => { rev.scrollTrigger?.kill(); rev.kill(); };
+          const st = ScrollTrigger.create({
+            trigger: section.current,
+            start: "top 80%",
+            onEnter: () => rev.play(),
+            onLeaveBack: () => rev.reverse(),
+          });
+          const inView = (section.current?.getBoundingClientRect().top ?? Infinity) <= window.innerHeight * 0.8;
+          if (inView) rev.play();
+          return () => { st.kill(); rev.kill(); };
         };
         if (document.fonts?.ready) document.fonts.ready.then(run); else run();
         return () => split?.revert();
