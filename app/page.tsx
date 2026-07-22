@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import {
   EditorialIndexHero,
   VelocityMarquee,
@@ -99,14 +100,35 @@ export default function Page() {
 
       {/* 06 — RibbonPeelRevealWithGlobe */}
       <SectionLabel n="06" name="RibbonPeelRevealWithGlobe" note="the front sheet peels into a slinky, revealing a cursor-driven porcelain Earth globe with crosshatched continents" />
-      <RibbonPeelRevealWithGlobe
-        current={
-          <div className="grid h-full w-full place-items-center" style={{ background: G.slate }}>
-            <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase text-white/90">Old World</p>
-          </div>
-        }
-        title="New World"
-      />
+      {/* porcelain-on-dark theme (matches the rig): the back depth ribbon reads --site-paper/--site-ink,
+          which are inverted (dark) in this demo's global theme — override them here to the rig values. */}
+      <div style={{ ["--site-paper"]: "#ECEAE3", ["--site-ink"]: "#23262B" } as CSSProperties}>
+        <RibbonPeelRevealWithGlobe
+          current={
+            <div
+              className="grid h-full w-full place-items-center"
+              style={{ background: "linear-gradient(180deg,#f2efe7,#e2ddd2)" }}
+            >
+              <div
+                style={{
+                  color: "#3a3d45", letterSpacing: "0.14em", textAlign: "center",
+                  fontWeight: 600, lineHeight: 1.4,
+                  fontSize: "clamp(1.1rem,2.4vw,1.8rem)",
+                  fontFamily: 'ui-sans-serif, system-ui, "Segoe UI", sans-serif',
+                }}
+              >
+                Old World
+                <br />
+                <span style={{ fontWeight: 400, fontSize: "0.62em", opacity: 0.6 }}>
+                  front sheet · sliced into the slinky
+                </span>
+              </div>
+            </div>
+          }
+          title="New World"
+          travelVh={800}
+        />
+      </div>
 
       {/* 07 — DossierStatGrid */}
       <SectionLabel n="07" name="DossierStatGrid" note="archival label→value grid on a hairline frame" />
