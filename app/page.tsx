@@ -4,7 +4,7 @@ import {
   StickyGrowMedia,
   StickyScrubGallery,
   DiagonalBorderSweep,
-  RibbonPeelReveal,
+  RibbonPeelRevealWithSphere,
   DossierStatGrid,
   ScrubRevealGrid,
   StackingCards,
@@ -97,21 +97,17 @@ export default function Page() {
         }
       />
 
-      {/* 06 — RibbonPeelReveal */}
-      <SectionLabel n="06" name="RibbonPeelReveal" note="the front sheet peels into a slinky and clears" />
-      <RibbonPeelReveal
+      {/* 06 — RibbonPeelRevealWithSphere */}
+      <SectionLabel n="06" name="RibbonPeelRevealWithSphere" note="the front sheet peels into a slinky, revealing a lit WebGL sphere that grows and spins its wordmark to face" />
+      <RibbonPeelRevealWithSphere
         current={
           <div className="grid h-full w-full place-items-center" style={{ background: G.slate }}>
             <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase text-white/90">Old World</p>
           </div>
         }
-        next={
-          <div className="px-6 text-center">
-            <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase" style={{ color: "var(--site-accent)" }}>
-              New World
-            </p>
-          </div>
-        }
+        eyebrow="PARTS BIN · 06"
+        titleParts={[{ text: "New " }, { text: "World", italic: true }]}
+        tagline={["a WebGL sphere, revealed as the ribbon peels"]}
       />
 
       {/* 07 — DossierStatGrid */}
