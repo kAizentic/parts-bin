@@ -4,7 +4,7 @@ import {
   StickyGrowMedia,
   StickyScrubGallery,
   DiagonalBorderSweep,
-  RibbonPeelRevealWithSphere,
+  RibbonPeelRevealWithGlobe,
   DossierStatGrid,
   ScrubRevealGrid,
   StackingCards,
@@ -97,17 +97,15 @@ export default function Page() {
         }
       />
 
-      {/* 06 — RibbonPeelRevealWithSphere */}
-      <SectionLabel n="06" name="RibbonPeelRevealWithSphere" note="the front sheet peels into a slinky, revealing a lit WebGL sphere that grows and spins its wordmark to face" />
-      <RibbonPeelRevealWithSphere
+      {/* 06 — RibbonPeelRevealWithGlobe */}
+      <SectionLabel n="06" name="RibbonPeelRevealWithGlobe" note="the front sheet peels into a slinky, revealing a cursor-driven porcelain Earth globe with crosshatched continents" />
+      <RibbonPeelRevealWithGlobe
         current={
           <div className="grid h-full w-full place-items-center" style={{ background: G.slate }}>
             <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase text-white/90">Old World</p>
           </div>
         }
-        eyebrow="PARTS BIN · 06"
-        titleParts={[{ text: "New " }, { text: "World", italic: true }]}
-        tagline={["a WebGL sphere, revealed as the ribbon peels"]}
+        title="New World"
       />
 
       {/* 07 — DossierStatGrid */}

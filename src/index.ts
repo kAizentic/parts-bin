@@ -5,6 +5,7 @@
 export { default as DiagonalBorderSweep } from "./components/DiagonalBorderSweep";
 export { default as RibbonPeelReveal } from "./components/RibbonPeelReveal";
 export { default as RibbonPeelRevealWithSphere } from "./components/RibbonPeelRevealWithSphere"; // also needs `three`
+export { default as RibbonPeelRevealWithGlobe } from "./components/RibbonPeelRevealWithGlobe"; // canvas globe; serves /ne_110m_*.json
 export { default as StickyScrubGallery } from "./components/StickyScrubGallery";
 export { default as StickyGrowMedia } from "./components/StickyGrowMedia";
 export { default as ScrubRevealGrid } from "./components/ScrubRevealGrid";
