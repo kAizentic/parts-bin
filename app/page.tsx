@@ -102,13 +102,13 @@ export default function Page() {
       <RibbonPeelReveal
         current={
           <div className="grid h-full w-full place-items-center" style={{ background: G.slate }}>
-            <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase text-white/90">The old way</p>
+            <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase text-white/90">Old World</p>
           </div>
         }
         next={
           <div className="px-6 text-center">
             <p className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase" style={{ color: "var(--site-accent)" }}>
-              Underneath
+              New World
             </p>
           </div>
         }
