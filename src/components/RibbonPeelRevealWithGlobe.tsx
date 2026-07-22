@@ -83,7 +83,7 @@ export default function RibbonPeelRevealWithGlobe({
   backThin = 0.85,
   peelStart = 0.03,
   peelEnd = 0.68,
-  travelVh = 820,
+  travelVh = 360,
   // ---- globe reveal motion ----
   growFrom = 0.62,
   settleStart = 0.05,

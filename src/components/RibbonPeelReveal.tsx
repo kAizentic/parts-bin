@@ -16,7 +16,8 @@
  *   - The front sheet (`current`) is masked by a live-generated SVG of `coils` arced bands;
  *     `fill=#fff` = kept, so shrinking the band heights uncovers what's behind.
  *   - A soft-light cylindrical-shade overlay rides on the front sheet so the flat bands read
- *     as round coils (a spring), not venetian blinds.
+ *     as round coils (a spring), not venetian blinds. It FADES IN from t=0 (`shadeFade`), so at
+ *     rest the front is one seamless flat section — the coils/seams only surface once you scroll.
  *   - The back depth ribbon is the same geometry, offset + a hair thinner, tinted from
  *     `--site-paper` so it recedes by tone, NOT by darkening (flat porcelain, no grain).
  *   - As the ribbon thins, the front tilts out to level (tilt→tiltEnd) while the back leans
@@ -60,6 +61,7 @@ export default function RibbonPeelReveal({
   depthRibbon = true,
   peelStart = 0.03,
   peelEnd = 0.68,
+  shadeFade = 0.18,
   travelVh = 800,
   onProgress,
   className = "",
@@ -96,6 +98,9 @@ export default function RibbonPeelReveal({
   peelStart?: number;
   /** scroll fraction by which the ribbon is fully gone — keep it WELL before 1.0 (default 0.68) */
   peelEnd?: number;
+  /** fraction of the peel window over which the cylindrical coil-shade fades in from flat — keeps the
+   *  front sheet a seamless flat section at rest, coils/seams only appear once you scroll (default 0.18) */
+  shadeFade?: number;
   /** total pinned scroll distance (track height, vh) (default 800) */
   travelVh?: number;
   /** called every scrubbed frame with progress 0→1 (sync auxiliary animation to the same playhead) */
@@ -182,6 +187,13 @@ export default function RibbonPeelReveal({
           const url = 'url("data:image/svg+xml,' + encodeURIComponent(maskHead + G0 + m + END) + '")';
           curRef.current!.style.webkitMaskImage = url;
           curRef.current!.style.maskImage = url;
+          // Rest = seamless flat section: the coils overlap into one solid rectangle at t=0, so the
+          // only thing that betrays the slinky structure before you scroll is this cylindrical shade
+          // (each coil's dark bottom over the next coil's light top reads as a seam). Fade it in from
+          // t=0 so the front looks like a plain background at rest, and the coils/seams only emerge
+          // as the peel begins. `shadeFade` sets how quickly the round shading arrives.
+          const sr = seg(p, peelStart, peelStart + (peelEnd - peelStart) * shadeFade);
+          shadeRef.current!.style.opacity = (sr * sr * (3 - 2 * sr)).toFixed(3);
           shadeRef.current!.innerHTML = shadeHead + G0 + s + END;
           if (backRef.current) backRef.current.innerHTML = depthRibbon ? backHead + GB + b + END : "";
         };
