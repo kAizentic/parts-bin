@@ -8,6 +8,7 @@ import {
   StickyScrubGallery,
   DiagonalBorderSweep,
   RibbonPeelRevealWithGlobe,
+  RippleTypeHero,
   DossierStatGrid,
   ScrubRevealGrid,
   StackingCards,
@@ -49,7 +50,7 @@ export default function Page() {
       <EditorialIndexHero
         eyebrow="COMPONENT LIBRARY"
         index="00"
-        total="21"
+        total="22"
         title={"PARTS\nBIN"}
         subtitle="React · Next · GSAP — token-driven, reduced-motion-safe"
         titleClassName="font-display font-semibold text-[clamp(3.5rem,15vw,15.5rem)] leading-[0.9]"
@@ -128,10 +129,10 @@ export default function Page() {
         <DossierStatGrid
           eyebrow="Specification"
           index="07"
-          total="21"
+          total="22"
           columns={3}
           entries={[
-            { label: "Components", value: "21", detail: "Sections + atoms" },
+            { label: "Components", value: "22", detail: "Sections + atoms" },
             { label: "Dependencies", value: "GSAP", detail: "+ CSS-only atoms" },
             { label: "Theming", value: "4 tokens", detail: "--site-*" },
             { label: "Motion", value: "matchMedia", detail: "reduced-motion safe" },
@@ -197,6 +198,18 @@ export default function Page() {
           </div>
         </GradientBorderCard>
         <HoverRollLink>Hover me →</HoverRollLink>
+      </div>
+
+      {/* 12 — RippleTypeHero (raw WebGL2, pointer-driven) — the closing showcase */}
+      <SectionLabel n="12" name="RippleTypeHero" note="pointer-driven WebGL water ripples refract the type — click to drop, Rain to pour" />
+      {/* dark reflection-only water: the component reads --site-paper as the ground and is only
+          visible where a crest reflects light; override to near-black + a cool accent. font-display
+          inherits so the canvas headline draws in Oswald (per CONTEXT). */}
+      <div
+        className="font-display"
+        style={{ ["--site-paper"]: "#05070d", ["--site-ink"]: "#eaf3ff", ["--site-accent"]: "#7fb0f0" } as CSSProperties}
+      >
+        <RippleTypeHero text="RIPPLE" ctaLabel="Rain" minHeightVh={100} />
       </div>
 
       <footer className="border-t px-6 py-16 text-center" style={{ borderColor: "var(--site-hairline)" }}>
