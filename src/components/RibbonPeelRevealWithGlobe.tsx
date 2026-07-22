@@ -71,13 +71,16 @@ export default function RibbonPeelRevealWithGlobe({
   globeInk = "#0b1524",
   landUrl = "/ne_110m_land.json",
   coastUrl = "/ne_110m_coastline.json",
-  // ---- ribbon knobs (forwarded) ----
+  // ---- ribbon knobs (forwarded — the full RibbonPeelReveal tune) ----
   coils = 7,
   arc = 0.32,
+  overscan = 1.3,
   tilt = 3,
   tiltEnd = 0,
   backTilt = 0,
   backTiltEnd = -3,
+  backOffset = 0.36,
+  backThin = 0.85,
   peelStart = 0.03,
   peelEnd = 0.68,
   travelVh = 820,
@@ -104,12 +107,18 @@ export default function RibbonPeelRevealWithGlobe({
   coastUrl?: string;
   coils?: number;
   arc?: number;
+  /** how far the coil stack bleeds past the frame (default 1.3) */
+  overscan?: number;
   tilt?: number;
   /** front tilt once fully thinned — animates tilt→tiltEnd over the peel (default 0, level) */
   tiltEnd?: number;
   backTilt?: number;
   /** back tilt once fully thinned — animates backTilt→backTiltEnd over the peel (default -3, 3° left) */
   backTiltEnd?: number;
+  /** back depth-ribbon offset in pitch fractions (default 0.36) */
+  backOffset?: number;
+  /** back depth-ribbon relative thickness (default 0.85) */
+  backThin?: number;
   peelStart?: number;
   /** ribbon fully gone by this scroll fraction — keep it BEFORE settleEnd (default 0.68) */
   peelEnd?: number;
@@ -357,10 +366,13 @@ export default function RibbonPeelRevealWithGlobe({
       backdrop={abyss}
       coils={coils}
       arc={arc}
+      overscan={overscan}
       tilt={tilt}
       tiltEnd={tiltEnd}
       backTilt={backTilt}
       backTiltEnd={backTiltEnd}
+      backOffset={backOffset}
+      backThin={backThin}
       depthRibbon
       peelStart={peelStart}
       peelEnd={peelEnd}

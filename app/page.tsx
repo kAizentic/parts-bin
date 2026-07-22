@@ -1,4 +1,6 @@
 import { type CSSProperties } from "react";
+// Tune written by the animation-rig Apply (rig → this file → push → live). See CONTEXT.md.
+import ribbonPeelTune from "./tunes/ribbon-peel-reveal.json";
 import {
   EditorialIndexHero,
   VelocityMarquee,
@@ -104,6 +106,7 @@ export default function Page() {
           which are inverted (dark) in this demo's global theme — override them here to the rig values. */}
       <div style={{ ["--site-paper"]: "#ECEAE3", ["--site-ink"]: "#23262B" } as CSSProperties}>
         <RibbonPeelRevealWithGlobe
+          {...ribbonPeelTune}
           current={
             <div
               className="grid h-full w-full place-items-center"
@@ -116,7 +119,6 @@ export default function Page() {
           }
           title="New World"
           titleClassName="font-display uppercase text-[clamp(1.75rem,4.5vw,3.25rem)]"
-          travelVh={1200}
         />
       </div>
 

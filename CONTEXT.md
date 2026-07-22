@@ -27,9 +27,19 @@ ribbon) will therefore render dark unless the section overrides those tokens. Wr
 a div that sets `--site-paper`/`--site-ink` to the intended values (section 06 sets them to the
 rig's porcelain-on-dark `#ECEAE3` / `#23262B`).
 
-## Rig → demo propagation (manual seam)
+## Rig → demo propagation (automatic — apply → push → live)
 
-The `animation-rig` Apply writes tuned call-site props to the **vault** `RibbonPeelReveal.usage.tsx`
-(+ a sidecar JSON), NOT to this repo's `app/page.tsx`. The demo hardcodes its own call-site props, so
-a tune (e.g. `travelVh`) reaches the live demo only when that value is **manually forwarded** into the
-demo's component call and pushed. Read the applied value from the rig sidecar, then update `page.tsx`.
+The tune lives in **`app/tunes/ribbon-peel-reveal.json`** (a flat knob object). `app/page.tsx` imports
+it and spreads it onto `<RibbonPeelRevealWithGlobe {...ribbonPeelTune} …>`, so the demo always renders
+whatever that file says. The `animation-rig` Apply is configured to write this exact file (its
+`serve.py` `DEMO_TUNE_PATH` points here), so the loop is just:
+
+1. Tune in the rig, click **Apply** → it overwrites `app/tunes/ribbon-peel-reveal.json`.
+2. `git push` this repo.
+3. Netlify redeploys → the live demo reflects the tune.
+
+No hand-editing `page.tsx`. Only *content/theme* props (`current`, `title`, `titleClassName`, the
+`--site-*` override) stay in `page.tsx`; the *motion tune* comes entirely from the JSON. If you rig a
+DIFFERENT component later, point that rig's `DEMO_TUNE_PATH` at its own tune file under `app/tunes/`
+and spread it the same way. (The vault still keeps its own `usage.tsx` + sidecar copy as the
+source-of-truth record; only this JSON drives the live demo.)

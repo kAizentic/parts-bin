@@ -14,13 +14,16 @@ export function RibbonPeelRevealWithGlobeExample({ current }: { current: ReactNo
       coastUrl="/ne_110m_coastline.json"
       coils={7}
       arc={0.32}
+      overscan={1.3}
       tilt={3}
       tiltEnd={0}
       backTilt={0}
       backTiltEnd={-3}
+      backOffset={0.36}
+      backThin={0.85}
       peelStart={0.03}
       peelEnd={0.68}
-      travelVh={820}
+      travelVh={1200}
       growFrom={0.62}
       settleStart={0.05}
       settleEnd={1.0}
