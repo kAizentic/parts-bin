@@ -45,7 +45,9 @@ export default function RibbonPeelRevealWithSphere({
   coils = 7,
   arc = 0.32,
   tilt = 3,
+  tiltEnd = 0,
   backTilt = 0,
+  backTiltEnd = -3,
   peelStart = 0.03,
   peelEnd = 0.68,
   travelVh = 820,
@@ -59,7 +61,7 @@ export default function RibbonPeelRevealWithSphere({
 }: {
   current: React.ReactNode;
   eyebrow?: string;
-  /** big wordmark; use `titleParts` instead to italicise a substring of the word */
+  /** big wordmark; use `titleParts` instead to italicise a substring (e.g. the "AI" in kAIzen) */
   title?: string;
   titleParts?: TitlePart[];
   titleColor?: string;
@@ -69,7 +71,11 @@ export default function RibbonPeelRevealWithSphere({
   coils?: number;
   arc?: number;
   tilt?: number;
+  /** front tilt once fully thinned — animates tilt→tiltEnd over the peel (default 0, level) */
+  tiltEnd?: number;
   backTilt?: number;
+  /** back tilt once fully thinned — animates backTilt→backTiltEnd over the peel (default -3, 3° left) */
+  backTiltEnd?: number;
   peelStart?: number;
   /** ribbon fully gone by this scroll fraction — keep it BEFORE settleEnd (default 0.68) */
   peelEnd?: number;
@@ -289,7 +295,9 @@ export default function RibbonPeelRevealWithSphere({
       coils={coils}
       arc={arc}
       tilt={tilt}
+      tiltEnd={tiltEnd}
       backTilt={backTilt}
+      backTiltEnd={backTiltEnd}
       depthRibbon
       peelStart={peelStart}
       peelEnd={peelEnd}

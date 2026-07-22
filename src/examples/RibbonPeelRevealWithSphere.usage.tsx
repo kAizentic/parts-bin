@@ -13,7 +13,9 @@ export function RibbonPeelRevealWithSphereExample({ current }: { current: ReactN
       coils={7}
       arc={0.32}
       tilt={3}
+      tiltEnd={0}
       backTilt={0}
+      backTiltEnd={-3}
       peelStart={0.03}
       peelEnd={0.68}
       travelVh={820}

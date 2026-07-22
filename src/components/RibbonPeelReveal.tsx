@@ -18,12 +18,14 @@
  *   - A soft-light cylindrical-shade overlay rides on the front sheet so the flat bands read
  *     as round coils (a spring), not venetian blinds.
  *   - The back depth ribbon is the same geometry, offset + a hair thinner, tinted from
- *     `--site-paper`, with a slow-drifting grain so it recedes by tone, NOT by darkening.
+ *     `--site-paper` so it recedes by tone, NOT by darkening (flat porcelain, no grain).
+ *   - As the ribbon thins, the front tilts out to level (tilt→tiltEnd) while the back leans
+ *     the opposite way (backTilt→backTiltEnd), so the two sheets fan apart as they vanish.
  *   - The whole ribbon thins out by `peelEnd` (well before the scroll ends), leaving the
  *     revealed backdrop to breathe — see `RibbonPeelRevealWithSphere` for why that matters.
  *
- * Theming: `--site-paper` (the back depth ribbon's porcelain tint) + `--site-ink` (grain
- * flecks). The front sheet's own background/colour is whatever you style onto `current`.
+ * Theming: `--site-paper` (the back depth ribbon's porcelain tint) + `--site-ink` (shade/mix
+ * tone). The front sheet's own background/colour is whatever you style onto `current`.
  * Reduced-motion: renders `current` then `next` as two normal stacked sections — no pin, no
  * mask, both fully legible.
  *
@@ -50,7 +52,9 @@ export default function RibbonPeelReveal({
   arc = 0.32,
   overscan = 1.3,
   tilt = 3,
+  tiltEnd = 0,
   backTilt = 0,
+  backTiltEnd = -3,
   backOffset = 0.36,
   backThin = 0.85,
   depthRibbon = true,
@@ -73,10 +77,15 @@ export default function RibbonPeelReveal({
   arc?: number;
   /** how far the coil stack overscans the viewport so top/bottom coils bleed off (default 1.30) */
   overscan?: number;
-  /** front ribbon tilt in degrees (default 3, leans right) */
+  /** front ribbon tilt in degrees at the START of the peel (default 3, leans right) */
   tilt?: number;
-  /** back depth-ribbon tilt in degrees (default 0, level) */
+  /** front ribbon tilt in degrees once fully thinned — animates tilt→tiltEnd over the peel (default 0, level) */
+  tiltEnd?: number;
+  /** back depth-ribbon tilt in degrees at the START of the peel (default 0, level) */
   backTilt?: number;
+  /** back depth-ribbon tilt in degrees once fully thinned — animates backTilt→backTiltEnd over the peel
+   *  (default -3 = 3° left of centre, mirroring the front's lean-out) */
+  backTiltEnd?: number;
   /** how far the back ribbon lags the front, in pitch fractions — the isometric offset (default 0.36) */
   backOffset?: number;
   /** back-ribbon coil height vs the front (default 0.85 = slightly thinner, so it recedes) */
@@ -138,29 +147,13 @@ export default function RibbonPeelReveal({
           "<stop offset='.32' stop-color='rgb(255,255,255)' stop-opacity='.03'/>" +
           "<stop offset='.60' stop-color='rgb(10,10,24)' stop-opacity='.08'/>" +
           "<stop offset='1' stop-color='rgb(5,3,15)' stop-opacity='.6'/></linearGradient></defs>";
-        // back ribbon: same porcelain tint (from --site-paper), sharp; depth from tone + offset + grain
+        // back ribbon: same porcelain tint (from --site-paper), sharp; depth from tone + offset (no grain)
         const backHead =
           "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1000 1000' preserveAspectRatio='xMidYMid slice'><defs>" +
           "<linearGradient id='cb' gradientUnits='objectBoundingBox' x1='0' y1='0' x2='0' y2='1'>" +
           "<stop offset='0' stop-color='" + paper + "' stop-opacity='.96'/>" +
           "<stop offset='.4' stop-color='" + mix(6) + "' stop-opacity='.86'/>" +
-          "<stop offset='1' stop-color='" + mix(26) + "' stop-opacity='.72'/></linearGradient>" +
-          "<pattern id='rpr-grain' width='130' height='130' patternUnits='userSpaceOnUse'>" +
-          grain(ink) + "</pattern></defs>";
-
-        function grain(inkColor: string) {
-          let sp = "";
-          for (let i = 0; i < 150; i++) {
-            const dark = Math.random() < 0.64;
-            sp +=
-              "<circle cx='" + (Math.random() * 130).toFixed(1) +
-              "' cy='" + (Math.random() * 130).toFixed(1) +
-              "' r='" + (0.4 + Math.random() * 1.4).toFixed(2) +
-              "' fill='" + (dark ? inkColor : "rgb(255,255,255)") +
-              "' opacity='" + (0.05 + Math.random() * 0.2).toFixed(2) + "'/>";
-          }
-          return sp;
-        }
+          "<stop offset='1' stop-color='" + mix(26) + "' stop-opacity='.72'/></linearGradient></defs>";
 
         const setBands = (p: number) => {
           const t = seg(p, peelStart, peelEnd); // 0→1 thinning, evenly across all coils
@@ -177,11 +170,14 @@ export default function RibbonPeelReveal({
             if (depthRibbon && hB >= 0.8) {
               const db = bandPath(cy + pitch * backOffset, hB);
               b += "<path d='" + db + "' fill='url(#cb)'/>";
-              b += "<path d='" + db + "' fill='url(#rpr-grain)' transform='translate(" + (p * 520).toFixed(1) + " 0)'/>";
             }
           }
-          const G0 = "<g transform='rotate(" + tilt + " 500 500)'>";
-          const GB = "<g transform='rotate(" + backTilt + " 500 500)'>";
+          // tilts animate over the same peel window: front leans out to level (tilt→tiltEnd),
+          // back leans the opposite way (backTilt→backTiltEnd) as everything thins to nothing
+          const frontRot = tilt + (tiltEnd - tilt) * t;
+          const backRot = backTilt + (backTiltEnd - backTilt) * t;
+          const G0 = "<g transform='rotate(" + frontRot.toFixed(3) + " 500 500)'>";
+          const GB = "<g transform='rotate(" + backRot.toFixed(3) + " 500 500)'>";
           const END = "</g></svg>";
           const url = 'url("data:image/svg+xml,' + encodeURIComponent(maskHead + G0 + m + END) + '")';
           curRef.current!.style.webkitMaskImage = url;

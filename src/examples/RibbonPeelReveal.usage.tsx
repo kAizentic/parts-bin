@@ -11,7 +11,9 @@ export function RibbonPeelRevealExample({ current, next }: { current: ReactNode;
       arc={0.32}
       overscan={1.3}
       tilt={3}
+      tiltEnd={0}
       backTilt={0}
+      backTiltEnd={-3}
       backOffset={0.36}
       backThin={0.85}
       depthRibbon
