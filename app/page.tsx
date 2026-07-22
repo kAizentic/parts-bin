@@ -109,24 +109,14 @@ export default function Page() {
               className="grid h-full w-full place-items-center"
               style={{ background: "linear-gradient(180deg,#f2efe7,#e2ddd2)" }}
             >
-              <div
-                style={{
-                  color: "#3a3d45", letterSpacing: "0.14em", textAlign: "center",
-                  fontWeight: 600, lineHeight: 1.4,
-                  fontSize: "clamp(1.1rem,2.4vw,1.8rem)",
-                  fontFamily: 'ui-sans-serif, system-ui, "Segoe UI", sans-serif',
-                }}
-              >
+              <p className="font-display uppercase text-[clamp(2rem,6vw,4.5rem)]" style={{ color: "#23262B" }}>
                 Old World
-                <br />
-                <span style={{ fontWeight: 400, fontSize: "0.62em", opacity: 0.6 }}>
-                  front sheet · sliced into the slinky
-                </span>
-              </div>
+              </p>
             </div>
           }
           title="New World"
-          travelVh={800}
+          titleClassName="font-display uppercase text-[clamp(1.75rem,4.5vw,3.25rem)]"
+          travelVh={1200}
         />
       </div>
 

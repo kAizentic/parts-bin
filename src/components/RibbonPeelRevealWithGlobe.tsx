@@ -65,6 +65,7 @@ export default function RibbonPeelRevealWithGlobe({
   // ---- label held in front of the revealed globe (the "new world" plate) ----
   title = "",
   titleColor = "#3a3d45",
+  titleClassName = "",
   // ---- revealed globe look ----
   globePaper = "#ECEAE3",
   globeInk = "#0b1524",
@@ -91,6 +92,8 @@ export default function RibbonPeelRevealWithGlobe({
   title?: string;
   /** colour of that label — dark, reads on the porcelain globe (default #3a3d45) */
   titleColor?: string;
+  /** class for the label — pass the host site's display typography; overrides the built-in font */
+  titleClassName?: string;
   /** globe fill — the porcelain disc, matches the ribbon front (default #ECEAE3) */
   globePaper?: string;
   /** globe engraving colour — the crosshatch + coastline, the backmost background navy (default #0b1524) */
@@ -320,11 +323,16 @@ export default function RibbonPeelRevealWithGlobe({
           }}
         >
           <div
-            style={{
-              color: titleColor,
-              font: '600 clamp(1.1rem,2.6vw,1.6rem)/1.4 ui-sans-serif, system-ui, "Segoe UI", sans-serif',
-              letterSpacing: "0.14em", textAlign: "center",
-            }}
+            className={titleClassName}
+            style={
+              titleClassName
+                ? { color: titleColor, textAlign: "center" }
+                : {
+                    color: titleColor,
+                    font: '600 clamp(1.1rem,2.6vw,1.6rem)/1.4 ui-sans-serif, system-ui, "Segoe UI", sans-serif',
+                    letterSpacing: "0.14em", textAlign: "center",
+                  }
+            }
           >
             {title}
           </div>
