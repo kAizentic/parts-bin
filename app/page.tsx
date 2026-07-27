@@ -1,6 +1,7 @@
 import { type CSSProperties } from "react";
 // Tune written by the animation-rig Apply (rig → this file → push → live). See CONTEXT.md.
 import ribbonPeelTune from "./tunes/ribbon-peel-reveal.json";
+import hopperTune from "./tunes/hopper-honeycomb.json";
 import {
   EditorialIndexHero,
   VelocityMarquee,
@@ -226,7 +227,9 @@ export default function Page() {
           ["--site-sheen"]: "#fa3d8c",
         } as CSSProperties}
       >
-        <HopperHoneycombField minHeightVh={100} />
+        {/* the tune comes from the committed JSON, which the rig's Apply overwrites —
+            so the loop is tune → Apply → push → live, with nothing hand-edited here */}
+        <HopperHoneycombField tune={hopperTune} minHeightVh={100} />
       </div>
 
       <footer className="border-t px-6 py-16 text-center" style={{ borderColor: "var(--site-hairline)" }}>

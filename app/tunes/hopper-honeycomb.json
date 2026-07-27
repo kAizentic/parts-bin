@@ -1,0 +1,17 @@
+{
+  "uCurve": 1.2,
+  "uRimGain": 1.5,
+  "uRimPow": 5,
+  "uIllumFloor": 0,
+  "uLampG": 0.288,
+  "uVioletB": 0.6,
+  "uLilacB": 0.55,
+  "uDip": 0.62,
+  "uRoseB": 0.85,
+  "uShadowBlue": 0.41,
+  "uVioletSat": 0.6,
+  "uR0": 0.87,
+  "uSeptumDark": 0.195,
+  "uSeptumRamp": 0.45,
+  "uMagentaB": 0.815
+}

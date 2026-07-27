@@ -895,6 +895,7 @@ export default function HopperHoneycombField({
   dip = 0.62,
   mouthRadius = 0.96,
   cellPx,
+  tune,
   interactive = true,
   minHeightVh = 100,
   className = "",
@@ -918,6 +919,10 @@ export default function HopperHoneycombField({
   mouthRadius?: number;
   /** target cell size in px; omit to size cells off the shorter viewport edge */
   cellPx?: number;
+  /** a rig tune: shader uniform names → values, applied last so it overrides everything above.
+   *  Written by the animation-rig's Apply and committed as JSON, so the loop is
+   *  tune → Apply → push → live with no hand-editing of the call site. */
+  tune?: Record<string, number>;
   /** wire the hover lens and the click cascade (ignored under reduced motion) */
   interactive?: boolean;
   /** height in vh */
@@ -972,9 +977,28 @@ export default function HopperHoneycombField({
        Read from the wrapper so a host theming scope applies. */
     const cs = getComputedStyle(wrap);
     const tok = (name: string) => cs.getPropertyValue(name).trim();
-    gl.uniform3fv(U("uLamp"), hexToRgb(lamp ?? tok("--site-accent"), [1.0, 0.288, 0.02]));
-    gl.uniform3fv(U("uMaterial"), hexToRgb(material ?? tok("--site-material"), [0.26, 0.032, 0.6]));
-    gl.uniform3fv(U("uSheen"), hexToRgb(sheen ?? tok("--site-sheen"), [0.98, 0.24, 0.55]));
+    const cLamp = hexToRgb(lamp ?? tok("--site-accent"), [1.0, 0.288, 0.02]);
+    const cMaterial = hexToRgb(material ?? tok("--site-material"), [0.26, 0.032, 0.6]);
+    const cSheen = hexToRgb(sheen ?? tok("--site-sheen"), [0.98, 0.24, 0.55]);
+
+    /* Channel aliases. The LAB tunes single channels (it was matching a reference per
+       luminance band); this component takes whole colours. Without this map a rig tune of
+       the violet would be dropped on the floor — silently, because an unknown uniform name
+       just resolves to null. Same failure class as a write-back that persists a subset. */
+    const CHANNEL_ALIAS: Record<string, [number[], number]> = {
+      uLampG: [cLamp, 1],       // green of the lamp
+      uVioletB: [cMaterial, 2], // blue of the material
+      uLilacB: [cSheen, 2],     // blue of the sheen
+    };
+    if (tune) {
+      for (const [k, v] of Object.entries(tune)) {
+        const alias = CHANNEL_ALIAS[k];
+        if (alias && Number.isFinite(v)) alias[0][alias[1]] = v as number;
+      }
+    }
+    gl.uniform3fv(U("uLamp"), cLamp);
+    gl.uniform3fv(U("uMaterial"), cMaterial);
+    gl.uniform3fv(U("uSheen"), cSheen);
 
     gl.uniform1f(U("uCurve"), curvature);
     gl.uniform1f(U("uDip"), dip);
@@ -993,6 +1017,27 @@ export default function HopperHoneycombField({
     gl.uniform1f(U("uVioletSat"), 0.6);
     gl.uniform1f(U("uSeptumDark"), 0.195);
     gl.uniform1f(U("uSeptumRamp"), 0.45);
+
+    /* The rig tune, applied LAST so it wins over both the props and the recipe above.
+       Keyed by the shader's own uniform names, deliberately untranslated — a knob-name →
+       prop-name map would be a second copy of the truth, and those drift. Values that are
+       not finite numbers (or not uniform-shaped names) are ignored rather than trusted. */
+    if (tune) {
+      const dropped: string[] = [];
+      for (const [k, v] of Object.entries(tune)) {
+        if (k in CHANNEL_ALIAS) continue;                       // already folded into a colour
+        if (!/^u[A-Za-z0-9]+$/.test(k) || !Number.isFinite(v)) { dropped.push(k); continue; }
+        const loc = U(k);
+        if (loc) gl.uniform1f(loc, v as number);
+        else dropped.push(k);
+      }
+      // A tune key this component cannot apply is worth saying out loud: the whole point of
+      // the rig loop is that what you tuned is what ships, and a silent drop breaks that
+      // quietly enough to survive a visual check.
+      if (dropped.length && process.env.NODE_ENV !== "production") {
+        console.warn(`[HopperHoneycombField] tune keys ignored (no such uniform): ${dropped.join(", ")}`);
+      }
+    }
 
     /* Supersample: the drawing buffer is larger than the CSS box so the compositor
        downsamples it. The shader's analytic LOD handles sub-pixel terraces, but the
@@ -1130,7 +1175,7 @@ export default function HopperHoneycombField({
       // otherwise push the browser past its WebGL context limit and blank an earlier one
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, [lamp, material, sheen, curvature, dip, mouthRadius, cellPx, interactive]);
+  }, [lamp, material, sheen, curvature, dip, mouthRadius, cellPx, interactive, tune]);
 
   return (
     <div

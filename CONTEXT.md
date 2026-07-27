@@ -44,6 +44,17 @@ DIFFERENT component later, point that rig's `DEMO_TUNE_PATH` at its own tune fil
 and spread it the same way. (The vault still keeps its own `usage.tsx` + sidecar copy as the
 source-of-truth record; only this JSON drives the live demo.)
 
+**`HopperHoneycombField` is wired the same way** (`app/tunes/hopper-honeycomb.json`), with one wrinkle:
+its lab tunes single colour *channels* (`uLampG`, `uVioletB`, `uLilacB`) while the component takes whole
+colours, so those three are folded into `lamp`/`material`/`sheen` by a channel-alias map inside the
+component. Any tune key it cannot apply is logged in dev rather than dropped — the point of the loop is
+that what you tuned is what ships, and a silent drop breaks that quietly enough to survive a look.
+
+**The bench states which files Apply writes**, fetched from the rig server's `GET /targets` rather than
+hardcoded in the UI, with any target inside a deployable repo flagged. Which files a rig session touches
+has genuinely varied — one rig wrote only the private lab, another wrote this repo's live tune — with
+nothing on screen saying which, so a tune could land somewhere other than where it was meant to.
+
 ## Before pushing — `npm run publish-check`
 
 This repo is a **sanitized derivative** of a private component bin, not a mirror of it. The
