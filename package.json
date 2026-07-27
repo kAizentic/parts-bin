@@ -25,7 +25,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "publish-check": "node scripts/publish-check.mjs",
+    "publish-check:self": "node scripts/publish-check.mjs --self-test"
   },
   "peerDependencies": {
     "react": ">=18",

@@ -61,7 +61,7 @@ export default function RibbonPeelRevealWithSphere({
 }: {
   current: React.ReactNode;
   eyebrow?: string;
-  /** big wordmark; use `titleParts` instead to italicise a substring (e.g. the "AI" in kAIzen) */
+  /** big wordmark; use `titleParts` instead to italicise a substring of it */
   title?: string;
   titleParts?: TitlePart[];
   titleColor?: string;

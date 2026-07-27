@@ -43,3 +43,36 @@ No hand-editing `page.tsx`. Only *content/theme* props (`current`, `title`, `tit
 DIFFERENT component later, point that rig's `DEMO_TUNE_PATH` at its own tune file under `app/tunes/`
 and spread it the same way. (The vault still keeps its own `usage.tsx` + sidecar copy as the
 source-of-truth record; only this JSON drives the live demo.)
+
+## Before pushing — `npm run publish-check`
+
+This repo is a **sanitized derivative** of a private component bin, not a mirror of it. The
+private copies carry teardown source attributions ("generalised from <site>"), internal
+failure-log pointers and wiki links. The public copies must not, and that difference used to
+be maintained by hand and by memory.
+
+```
+npm run publish-check        # leak gate → typecheck → build → wiring   (~17s)
+npm run publish-check:self   # proves the leak gate FIRES, not just that it passes
+```
+
+The leak gate is the reason the script exists — a public git history cannot be un-pushed, so
+this is the one failure that is not recoverable. It found a live one on its first run (a brand
+wordmark in a JSDoc comment). The rest of the stages are ordinary correctness checks.
+
+Two notes on how it is built:
+
+- **Patterns come from what is actually in the private copies**, not from imagination, and each
+  carries a `why` so a hit explains itself. `uiverse.io` MIT attributions are explicitly ALLOWED
+  — they are a credibility signal, not a leak.
+- **Precision was tuned deliberately**, because a gate that cries wolf gets ignored. Wiki links
+  are anchored to real vault namespaces so `[[g.coordinates]]` (array indexing) does not trip
+  them, and source sites are matched by name so `gl.compileShader` does not look like a domain.
+  `--self-test` asserts both directions: fires on injected leaks, silent on the clean tree.
+
+Stage 5 (headless render — live GL context, no horizontal overflow at 400px) is **opt-in**; a
+public showcase repo should not carry a browser as a dev dependency just for a pre-push check:
+`npm i -D playwright && npx playwright install chromium`.
+
+If a leak is found: fix the **public** copy. The private one is allowed to keep its provenance —
+that asymmetry is the point, and "syncing" the two would re-introduce the leak.
