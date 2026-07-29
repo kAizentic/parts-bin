@@ -1,7 +1,6 @@
 import { type CSSProperties } from "react";
 // Tune written by the animation-rig Apply (rig → this file → push → live). See CONTEXT.md.
 import ribbonPeelTune from "./tunes/ribbon-peel-reveal.json";
-import hopperTune from "./tunes/hopper-honeycomb.json";
 import {
   EditorialIndexHero,
   VelocityMarquee,
@@ -10,7 +9,6 @@ import {
   DiagonalBorderSweep,
   RibbonPeelRevealWithGlobe,
   RippleTypeHero,
-  HopperHoneycombField,
   DossierStatGrid,
   ScrubRevealGrid,
   StackingCards,
@@ -212,24 +210,6 @@ export default function Page() {
         style={{ ["--site-paper"]: "#05070d", ["--site-ink"]: "#eaf3ff", ["--site-accent"]: "#7fb0f0" } as CSSProperties}
       >
         <RippleTypeHero text="RIPPLE" ctaLabel="Rain" minHeightVh={100} />
-      </div>
-
-      {/* 13 — HopperHoneycombField (raw WebGL2, relief raymarch) — the closing showcase */}
-      <SectionLabel n="13" name="HopperHoneycombField" note="deep stepped wells resolved by a parallax-occlusion raymarch — hover to tent the surface, click to sweep the seams and pop the cells" />
-      {/* dark-ground component: the cells are lit from BEHIND the panel, so the ground must be
-          near-black for the source to read as light escaping up through the tubes. Three whole
-          colours are the seam — lamp / material / sheen. */}
-      <div
-        style={{
-          ["--site-paper"]: "#05010a",
-          ["--site-accent"]: "#ff4905",
-          ["--site-material"]: "#420899",
-          ["--site-sheen"]: "#fa3d8c",
-        } as CSSProperties}
-      >
-        {/* the tune comes from the committed JSON, which the rig's Apply overwrites —
-            so the loop is tune → Apply → push → live, with nothing hand-edited here */}
-        <HopperHoneycombField tune={hopperTune} minHeightVh={100} />
       </div>
 
       <footer className="border-t px-6 py-16 text-center" style={{ borderColor: "var(--site-hairline)" }}>

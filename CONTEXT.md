@@ -44,7 +44,10 @@ DIFFERENT component later, point that rig's `DEMO_TUNE_PATH` at its own tune fil
 and spread it the same way. (The vault still keeps its own `usage.tsx` + sidecar copy as the
 source-of-truth record; only this JSON drives the live demo.)
 
-**`HopperHoneycombField` is wired the same way** (`app/tunes/hopper-honeycomb.json`), with one wrinkle:
+**`HopperHoneycombField` was wired the same way** (`app/tunes/hopper-honeycomb.json`) until it was pulled
+from the showcase — it is still exported from `src/index.ts` and the tune file is still committed, but
+`app/page.tsx` no longer renders it, so `publish-check` stage 4 reports it as a *skip* ("no showcase
+slot"), not a failure. Re-wiring it is the import + one section block. The wrinkle to remember if you do:
 its lab tunes single colour *channels* (`uLampG`, `uVioletB`, `uLilacB`) while the component takes whole
 colours, so those three are folded into `lamp`/`material`/`sheen` by a channel-alias map inside the
 component. Any tune key it cannot apply is logged in dev rather than dropped — the point of the loop is
