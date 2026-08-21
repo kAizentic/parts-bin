@@ -9,14 +9,15 @@ import RippleTypeHero from "../../../framer/RippleTypeHero.framer";
  * away from what the component actually ships with — there is exactly one source of truth,
  * and it is the file that gets pasted into Framer.
  *
- * `?rig=1` additionally makes this page a target for the animation-rig bench, which drives
- * knobs over postMessage (see `framer/rig.config.json`). The listener is only installed when
- * that flag is present, so the public preview URL registers nothing and behaves identically
- * to a static render. Only known knob keys are accepted.
+ * `?rig=1` additionally makes this page drivable over postMessage by a local tuning bench.
+ * The listener is only installed when that flag is present, so the public preview URL
+ * registers nothing and behaves identically to a static render. Only known knob keys are
+ * accepted, and each is type-checked before it is applied.
  *
- * NOTE for the rig: bench and target must share a hostname — open the bench at
- * http://localhost:8792, not 127.0.0.1, or Chrome throttles this frame's rAF and the water
- * freezes at frame one while still looking composed.
+ * If you do frame this page from a local bench: serve the bench on the SAME hostname
+ * (localhost framing localhost, never mixed with 127.0.0.1). Chrome treats those as
+ * different sites and throttles a cross-site iframe's rAF — the water then freezes at frame
+ * one while still looking correctly composed, which reads as a broken component.
  */
 
 const STRING_KEYS = [

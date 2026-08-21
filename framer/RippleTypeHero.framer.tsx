@@ -762,16 +762,15 @@ void main(){
     )
 }
 
-// SHIPPING DEFAULTS -- promoted from the rig tune Michael applied 2026-08-20
-// (framer/rig-tunes/ripple-type-hero.json) -- EXCEPT `text`, deliberately reverted to "RIPPLE"
-// on 2026-08-21. The sidecar still records "FRAMER" because that was the bench test string;
-// do not "restore" it from the tune. For a Marketplace component the defaults ARE the
+// SHIPPING DEFAULTS -- hand-tuned on a live bench and approved by eye, then promoted here
+// (2026-08-20); `text` was deliberately set back to "RIPPLE" on 2026-08-21 after that session.
+// For a Marketplace component the defaults ARE the
 // first thing a buyer sees on drop, so these are the listing's presentation, not dev leftovers.
 // The look is deliberately monochrome: with a near-black accent the crests are carried almost
 // entirely by the caustic term, which stays 35% white regardless of accent
 // (causticTint = mix(u_accent, vec3(1.0), 0.35)). Measured luminance range 31.3 vs 42.9 for a
 // saturated accent -- restrained, not washed out. Do not "fix" the accent to something brighter
-// without re-running the rig; this tune was approved by hand.
+// without re-tuning it on a bench; this tune was approved by hand.
 RippleTypeHero.defaultProps = {
     text: "RIPPLE",
     fontFamily: "",

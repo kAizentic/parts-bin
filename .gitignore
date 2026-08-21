@@ -11,3 +11,12 @@ next-env.d.ts
 *.pem
 *.key
 id_rsa*
+
+# Local tuning apparatus -- kept out of the public repo. These are dev tools, not the
+# product: the rig bench + write-back server, its durable knob config, the tune records
+# it writes, and the generated call-site snippet. Approved tunes live in the component's
+# own defaultProps, which IS tracked.
+framer/rig/
+framer/rig.config.json
+framer/rig-tunes/
+framer/RippleTypeHero.tuned.tsx
