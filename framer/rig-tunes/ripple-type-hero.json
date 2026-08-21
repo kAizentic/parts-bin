@@ -1,0 +1,16 @@
+{
+  "target": "RippleTypeHero (Framer port)",
+  "knob": {
+    "relief": 16,
+    "glow": 4.5,
+    "caustics": 110,
+    "paperColor": "#04060A",
+    "inkColor": "#fefefe",
+    "accentColor": "#171717",
+    "text": "FRAMER",
+    "ctaLabel": "Rain"
+  },
+  "dur": "4",
+  "generatedAt": "2026-08-21T04:47:49.751Z",
+  "tracks": []
+}
